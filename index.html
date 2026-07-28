@@ -97,7 +97,7 @@
     // ======================================================================
     const config = {
         siteId: "site_loan_001",           // [필수] 사이트 고유 ID (텍스트 풀 시드값 및 고유 해시 생성용)
-        targetUrl: "https://kerion.info/t738kzoid5",     // [필수] 실제 이동할 URL (검색엔진 가이드라인 준수를 위해 rel 속성 적용)
+        targetUrl: "https://rentdirect.kr/?num=15402779",     // [필수] 실제 이동할 URL (검색엔진 가이드라인 준수를 위해 rel 속성 적용)
         themeColor: "#007bff",             // 사이트 테마 컬러 (버튼 색상)
         topic: "자동차 리스 및 장기렌트카",          // 사이트별 주요 타겟 키워드
         minCount: 130,                     // 최소 방문자 수 범위
@@ -319,7 +319,13 @@
 
 
 
-	
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+
+
 
     <!-- JSON-LD Structured Data for SEO Snippet -->
     <script type="application/ld+json">
@@ -959,16 +965,17 @@
 
 
 
-
-<footer id="dynamic-footer" style="font-size: 12px; color: #777; padding: 40px 20px; text-align: center; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #fafafa; border-top: 1px solid #eee;">
+<footer id="dynamic-footer" style="font-size: 12px; color: #595959; padding: 40px 20px; text-align: center; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #fafafa; border-top: 1px solid #eee;">
   
-  <div style="margin-bottom: 12px; font-weight: 500; color: #444;">
-    © <span id="copyright-year"></span> <span id="site-title-display"></span>. All rights reserved.
+  <!-- 명도 대비 개선: 텍스트 색상을 #595959로 조정하여 가독성 확보 -->
+  <div style="margin-bottom: 12px; font-weight: 500; color: #333;">
+    © <span id="copyright-year">2026</span> <span id="site-title-display">Website</span>. All rights reserved.
   </div>
 
-  <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #999;">
-    <span style="display: inline-block; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 5px #2ecc71; animation: pulse 2s infinite;"></span>
-    <span id="sync-status" aria-live="polite">시스템 안정화 운영 중</span>
+  <div style="display: flex; align-items: center; justify-content: center; gap: 8px; color: #767676; flex-wrap: wrap;">
+    <!-- 접근성 개선: 시각 장애인을 위해 의미 없는 애니메이션 점은 스크린리더에서 숨김 -->
+    <span style="display: inline-block; width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 5px #2ecc71; animation: pulse 2s infinite;" aria-hidden="true"></span>
+    <span id="sync-status">시스템 안정화 운영 중</span>
   </div>
 
   <style>
@@ -984,20 +991,28 @@
 (function() {
   'use strict';
 
-  // 1. 현재 연도 구하기 (KST 기준 안전하게 추출)
-  const now = new Date();
-  const formatter = new Intl.DateTimeFormat('ko-KR', {
-    timeZone: 'Asia/Seoul',
-    year: 'numeric'
-  });
-  const year = formatter.format(now).replace('년', '').trim();
-  const title = document.title || window.location.hostname;
+  // 1. 현재 연도 및 타이틀 구하기 (KST 안전 구동 및 예외 처리)
+  let year = '2026';
+  try {
+    const formatter = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric'
+    });
+    year = formatter.format(new Date()).replace('년', '').trim();
+  } catch (e) {
+    year = String(new Date().getFullYear());
+  }
+  
+  const title = document.title || window.location.hostname || "Website";
 
-  // 2. UI 업데이트 (정적이고 안전한 정보만 반영)
-  document.getElementById('copyright-year').textContent = year;
-  document.getElementById('site-title-display').textContent = title;
+  // 2. UI 즉시 업데이트 (CLS 방지 및 안전한 대입)
+  const yearEl = document.getElementById('copyright-year');
+  const titleEl = document.getElementById('site-title-display');
+  
+  if (yearEl) yearEl.textContent = year;
+  if (titleEl) titleEl.textContent = title;
 
-  // 3. 메타 태그에는 실시간 시간이 아닌 '카피라이트' 정보만 안전하게 주입
+  // 3. 메타 태그에는 논란의 여지가 없는 'copyright' 정보만 주입 (SEO 안전)
   let metaCopy = document.querySelector('meta[name="copyright"]');
   if (!metaCopy) {
     metaCopy = document.createElement('meta');
